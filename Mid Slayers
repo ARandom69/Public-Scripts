@@ -1,0 +1,838 @@
+if game.PlaceId == 5956785391 then
+    local CoreGui = game:GetService("StarterGui")
+    CoreGui:SetCore("SendNotification", {Title = "Main Menu"; Text = "Main Menu Not Supported"; Duration = 60; Button1 = "Ok"; })
+end
+
+if game.PlaceId == 6152116144 then
+getrenv()._G.handle_irregular = nil
+getrenv()._G.cuasdamsndasdasd = nil
+
+_G.cuasdamsndasdasd = function()
+    return
+end
+
+getrenv().tick = function()
+    return 2000
+end
+
+_G.handle_irregular = function()
+    return false
+end
+
+repeat wait() until game:IsLoaded()
+local skill_module = require(game:GetService("ReplicatedStorage").Modules.Server["Skills_Modules_Handler"])
+
+hookfunction(skill_module.Kick, function()
+    return nil
+end);
+
+local anti_cheat1 = game:GetService("Players").LocalPlayer.PlayerScripts["Small_Scripts"]["Client_Global_utility"]
+local anti_cheat2 = game:GetService("Players").LocalPlayer.PlayerScripts["Small_Scripts"]["client_global_delete_script"]
+
+hookfunction(anti_cheat1.GetPropertyChangedSignal, function()
+    return
+end)
+
+hookfunction(anti_cheat2.GetPropertyChangedSignal, function()
+    return
+end)
+
+anti_cheat1.Disabled = true
+anti_cheat2.Disabled = true
+
+local Namecall
+Namecall = hookmetamethod(game, '__namecall', function(self, ...)
+    local Args = {...}
+    local method = getnamecallmethod()
+    
+    if method == 'FireServer' and string.find(self.Name, 'mod') then 
+        return 
+    end
+    
+    if method == 'InvokeServer' and self.Name == 'reporthackerasdasd' then 
+        return 
+    end
+    
+    if method == 'FireServer' and self.Name == 'To_Server_commends' then 
+        return
+    end
+    
+    if method:lower() == 'kick' then 
+        return 
+    end
+    
+    return Namecall(self, ...)
+end)
+
+local hook
+hook = hookmetamethod(game, "__namecall", function(self, ...)
+   args = {...}
+
+   if getnamecallmethod() == "FireServer" and #args == 2 and type(args[1]) == "boolean" then
+       return task.wait(9e9)
+   end
+
+   return hook(self, ...)
+end)
+
+
+
+
+
+local client = game:GetService("Players").LocalPlayer
+local user = client.Name
+local TweenService = game:GetService("TweenService")
+local noclipE = nil
+local antifall = nil
+
+local function noclip()
+    for i, v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
+        if v:IsA("BasePart") and v.CanCollide == true then
+            v.CanCollide = false
+            game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(0, 0, 0)
+        end
+    end
+end
+
+local function moveto(obj, speed)
+    local info = TweenInfo.new(((client.Character.HumanoidRootPart.Position - obj.Position).Magnitude) / speed,Enum.EasingStyle.Linear)
+    local tween = TweenService:Create(client.Character.HumanoidRootPart, info, {CFrame = obj})
+    if not client.Character.HumanoidRootPart:FindFirstChild("BodyVelocity") then
+        antifall = Instance.new("BodyVelocity", client.Character.HumanoidRootPart)
+        antifall.Velocity = Vector3.new(0, 0, 0)
+        noclipE = game:GetService("RunService").Stepped:Connect(noclip) 
+        tween:Play()
+    end
+
+    tween.Completed:Connect(function()
+        antifall:Destroy()
+        noclipE:Disconnect()
+    end)
+end
+
+
+local Config = {
+    WindowName = "Game",
+	Color = Color3.fromRGB(255,128,64),
+	Keybind = Enum.KeyCode.LeftControl
+}
+
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/AlexR32/Roblox/main/BracketV3.lua"))()
+local Window = Library:CreateWindow(Config, game:GetService("CoreGui"))
+
+local Main = Window:CreateTab("Main")
+local Main = Main:CreateSection("Main")
+
+local Misc = Window:CreateTab("Misc")
+local Misc = Misc:CreateSection("Misc")
+
+local Teleports = Window:CreateTab("Teleports")
+local Teleports = Teleports:CreateSection("Teleports")
+
+
+--Main
+local Toggle4 = Main:CreateToggle("Rice Farm", nil, function(x)
+    getgenv().Rice = x
+end)
+Toggle4:AddToolTip("Rice Farm")
+
+
+local Toggle5 = Main:CreateToggle("Mastery Farm", nil, function(x)
+    getgenv().Mastery = x
+end)
+Toggle5:AddToolTip("Mastery Farm")
+
+
+local Dropdown1 = Main:CreateDropdown("Kill Aura Method", {"Combat","Sword - Fastest"}, function(x)
+    getgenv().Method = x
+end)
+
+Dropdown1:AddToolTip("Kill Aura Method")
+
+local Toggle7 = Main:CreateToggle("Kill Aura", nil, function(x)
+    getgenv().KillAura = x
+end)
+Toggle7:AddToolTip("Kill Aura")
+
+local Dropdown8 = Main:CreateDropdown("Farm Method", {"Close","Behind", "Below"}, function(x)
+    getgenv().FarmMethod = x
+end)
+Dropdown8:AddToolTip("Farm Method")
+
+
+local bosses = {
+    "Sabito",
+    "Zanegutsu Kuuchie",
+    "Shiron",
+    "Sanemi",
+    "Giyu",
+    "Nezuko",
+    "Yahaba",
+    "Bandit Zuko",
+    "Susamaru"
+}
+
+local Dropdown6 = Main:CreateDropdown("Select Boss", bosses, function(x)
+    getgenv().wanted_boss = x
+end)
+Dropdown6:AddToolTip("Choose Boss")
+
+
+local Toggle5 = Main:CreateToggle("Farm Selected Boss", nil, function(x)
+    getgenv().FarmSelectedBoss = x
+end)
+Toggle5:AddToolTip("Farm Selected Boss")
+
+
+local Toggle4 = Main:CreateToggle("Farm All Bosses - Use Skill Aura", nil, function(x)
+    getgenv().FarmAllBosses = x
+end)
+Toggle4:AddToolTip("Farm All Bosses")
+
+local Demons = {
+    "Sakurai Demon",
+    "Yowai Demon",
+    "Yahaba",
+    "Sasumaru"
+}
+
+local Toggle3 = Main:CreateToggle("Farm All Demons", nil, function(x)
+    getgenv().DemonFarm = x
+end)
+Toggle3:AddToolTip("Farm All Demons")
+
+--Misc
+local Toggle6 = Misc:CreateToggle("Inf Stam", nil, function(x)
+    getgenv().infstam = x
+end)
+Toggle6:AddToolTip("Inf Stam")
+
+local Toggle7 = Misc:CreateToggle("Inf Breathing", nil, function(x)
+    getgenv().infbreath = x
+end)
+Toggle7:AddToolTip("Inf Breathing")
+
+local Button1 = Misc:CreateButton("Goto Muzan", function()
+    local cframe = CFrame.new(game:GetService("Workspace").Muzan.SpawnPos.Value)
+    local tween = game:GetService("TweenService"):Create(game.Players.LocalPlayer.Character.HumanoidRootPart, TweenInfo.new(30), {CFrame = cframe})                    
+    tween:Play()
+end)
+Button1:AddToolTip("Goto Muzan")
+
+local Slider1 = misc:CreateSlider("Speed",16,350,nil,false, function(x)
+game:GetService("Players").LocalPlayer.Character.Humanoid.WalkSpeed = x
+end)
+Slider1:SetValue(16)
+Slider1:AddToolTip("Speed")
+
+
+--Teleports
+
+
+local Villages = {
+    ["Kiribating Village"] = CFrame.new(120.362045, 282.207642, -1743.01636, 0.999990761, 2.85735684e-08, 0.00429180823, -2.90243012e-08, 1, 1.04959462e-07, -0.00429180823, -1.0508306e-07, 0.999990761),
+    ["Zapiwara Cave [Demon Art Spins]"] = CFrame.new(-38.216156, 275.869537, -2403.53711, -0.244779825, 1.40672629e-08, 0.969578683, -3.9969752e-08, 1, -2.45993981e-08, -0.969578683, -4.47752555e-08, -0.244779825),
+    ["Ushumaro Village"] = CFrame.new(-90.0373688, 354.723511, -3170.00439, 0.817297578, -1.0121405e-08, 0.576215804, 3.12666586e-08, 1, -2.6782951e-08, -0.576215804, 3.99059843e-08, 0.817297578),
+    ["Butterfly Mansion"] = CFrame.new(3001.71753, 316.000519, -3806.40601, -0.998922288, -7.88841792e-09, -0.0464141443, -9.13921649e-09, 1, 2.67364477e-08, 0.0464141443, 2.71318221e-08, -0.998922288),
+    ["Final Selection"] = CFrame.new(5258.51709, 365.857056, -2422.04443, 0.0163344685, -1.36483918e-08, -0.999866605, -6.17656548e-09, 1, -1.37511176e-08, 0.999866605, 6.40035847e-09, 0.0163344685),
+    ["Zapiwara Mountain"] = CFrame.new(-366.581635, 425.857422, -2371.77124, -0.998583674, -7.39169579e-08, 0.0532043427, -7.35017522e-08, 1, 9.76061187e-09, -0.0532043427, 5.8361751e-09, -0.998583674),
+    ["Wind Trainer"] = CFrame.new(1797.46521, 334.100983, -3466.552, 0.99727422, 7.59257635e-09, -0.0737840235, -2.28731412e-09, 1, 7.19870812e-08, 0.0737840235, -7.16220967e-08, 0.99727422),
+    ["Kabiwaru Village"] = CFrame.new(2015.54297, 315.908813, -3051.2251, -0.956531584, -6.76903866e-08, -0.291628718, -6.4477355e-08, 1, -2.0628141e-08, 0.291628718, -9.2802005e-10, -0.956531584),
+    ["Waroru Cave"] = CFrame.new(689.451843, 261.933289, -2469.948, -0.990007997, -2.02267403e-09, -0.141011208, 3.4283596e-09, 1, -3.8413809e-08, 0.141011208, -3.85134129e-08, -0.990007997),
+    ["Ouwbayashi Home"] = CFrame.new(1241.24353, 320.429382, -4568.84521, 0.0538635328, 2.40611175e-08, -0.998548329, -7.93333221e-09, 1, 2.36681608e-08, 0.998548329, 6.64696431e-09, 0.0538635328),
+    ["Dangerous Woods"] = CFrame.new(3839.87256, 342.214478, -4177.88428, 0.99924922, -3.67285011e-08, 0.0387428068, 3.67143471e-08, 1, 1.07676823e-09, -0.0387428068, 3.46457113e-10, 0.99924922)
+}
+
+local Village = {}
+for i,v in pairs(Villages) do
+    if not table.find(Village, i) then
+        table.insert(Village, i)
+    end
+end
+
+local Dropdown9 = Teleports:CreateDropdown("Select Village", Village, function(x)
+    getgenv().VillageTps = x
+end)
+Dropdown9:AddToolTip("Select Village")
+Dropdown9:SetOption("Dangerous Woods")
+
+local Button10 = Teleports:CreateButton("Teleport", function()
+    moveto(Villages[getgenv().VillageTps], 150)
+end)
+Button10:AddToolTip("Teleport")
+
+
+
+local trainersloc = {
+    ["Urokodaki - Water"] = CFrame.new(705.209229, 261.426819, -2409.51587, -0.566798735, -5.48522401e-08, -0.641887605, -7.38932258e-08, 1, 2.8182352e-09, 0.641887605, 4.95921633e-08, -0.566798735),
+    ["Shinobo - Insect"] = CFrame.new(2873.81177, 316.95871, -3917.9397, 0.40715313, 4.81208531e-08, 0.91335988, -8.85969982e-08, 1, -1.31911939e-08, -0.91335988, -7.55501048e-08, 0.40715313),
+    ["Kuwajima - Lightning"] = CFrame.new(-322.369507, 426.857788, -2384.4021, 0.361198723, -4.49157973e-08, -0.932488859, 1.14233451e-07, 1, -3.91942434e-09, 0.932488859, -1.05105727e-07, 0.361198723),
+    ["Jinger - Wind"] = CFrame.new(1792.31458, 334.338989, -3521.31104, 0.862527311, -5.19402583e-08, -0.506010473, 8.30083167e-08, 1, 3.88463874e-08, 0.506010473, -7.55091492e-08, 0.862527311)
+    
+}
+
+local trainer = {}
+for i,v in pairs(trainersloc) do
+    if not table.find(trainer, i) then
+        table.insert(trainer, i)
+    end
+end
+
+local Dropdown8 = Teleports:CreateDropdown("Select Trainer", trainer, function(x)
+    getgenv().TrainerTPs = x
+end)
+Dropdown8:AddToolTip("Select Trainer")
+Dropdown8:SetOption("Urokodaki - Water")
+
+local Button9 = Teleports:CreateButton("Teleport", function()
+    moveto(trainer_cframes[getgenv().TrainerTPs], 150)
+end)
+Button9:AddToolTip("Teleport")
+
+
+--Functions
+spawn(function()
+    while task.wait() do
+        if getgenv().infbreath then
+            getrenv()._G:Breath(-100)
+        end
+    end
+end)
+
+spawn(function()
+    while task.wait() do
+        if getgenv().infstam then
+            getrenv()._G:Stamina(-100)
+        end
+    end
+end)
+
+spawn(function()
+while task.wait() do
+    if getgenv().Mastery == true then
+    while getgenv().Mastery do task.wait()
+        moveto(game:GetService("Workspace").punchinglogs:GetModelCFrame(), 80)
+            end
+        end
+    end
+end)
+
+
+spawn(function()
+while task.wait() do
+    if getgenv().Rice == true then
+    while getgenv().Rice do task.wait() do
+        moveto(game:GetService("Workspace")["Sarah"]:GetModelCFrame(), 60)
+        wait(10)
+        local args = {
+            [1] = "AddQuest",
+            [2] = "Players."..game.Players.LocalPlayer.name..".PlayerGui.Npc_Dialogue.LocalScript.Functions",
+            [3] = 48613.2447483,
+            [4] = game:GetService("ReplicatedStorage").Player_Data[game.Players.LocalPlayer.Name].Quest,
+            [5] = {
+                ["List"] = {
+                    [1] = {
+                        ["Name"] = "pick 4 strings of rice",
+                        ["Progress"] = {
+                            [1] = 0,
+                            [2] = 4
+                        }
+                    }
+                },
+                ["Current"] = "Help Sarah pick rice"
+            }
+        }
+        game:GetService("ReplicatedStorage").Remotes.To_Server.Handle_Initiate_S:FireServer(unpack(args))
+        task.wait(1)
+        
+        moveto(game:GetService("Workspace")["StarterVillage_RiceStrings"].RiceString.CFrame, 60)
+        task.wait(1)
+        fireproximityprompt(workspace["StarterVillage_RiceStrings"].RiceString.Rice_pick_proximity, 1, true)
+    
+        moveto(game:GetService("Workspace")["StarterVillage_RiceStrings"].RiceString.CFrame, 60)
+        task.wait(1)
+        fireproximityprompt(workspace["StarterVillage_RiceStrings"].RiceString.Rice_pick_proximity, 1, true)
+    
+        moveto(game:GetService("Workspace")["StarterVillage_RiceStrings"].RiceString.CFrame, 60)
+        task.wait(1)
+        fireproximityprompt(workspace["StarterVillage_RiceStrings"].RiceString.Rice_pick_proximity, 1, true)
+    
+        moveto(game:GetService("Workspace")["StarterVillage_RiceStrings"].RiceString.CFrame, 60)
+        task.wait(1)
+        fireproximityprompt(workspace["StarterVillage_RiceStrings"].RiceString.Rice_pick_proximity, 1, true)
+        wait(1)
+    
+        moveto(game:GetService("Workspace")["StarterVillage_RiceStrings"].RiceString.CFrame, 60)
+        task.wait(1)
+        fireproximityprompt(workspace["StarterVillage_RiceStrings"].RiceString.Rice_pick_proximity, 1, true)
+        
+        moveto(game:GetService("Workspace")["StarterVillage_RiceStrings"].RiceString.CFrame, 60)
+        task.wait(1)
+        fireproximityprompt(workspace["StarterVillage_RiceStrings"].RiceString.Rice_pick_proximity, 1, true)
+        wait(45)
+        end
+    end
+end
+end
+end)
+
+task.spawn(function()
+    pcall(function()
+        while task.wait() do
+            if getgenv().KillAura == true and getgenv().Method == "Combat" then
+                repeat task.wait(2.5)
+                        local args = {
+                            [1] = "fist_combat",
+                            [2] = game:GetService("Players").LocalPlayer,
+                            [3] = game:GetService("Players").LocalPlayer.Character,
+                            [4] = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart,
+                            [5] = game:GetService("Players").LocalPlayer.Character.Humanoid,
+                            [6] = 1
+                        }
+                        game:GetService("ReplicatedStorage").Remotes.To_Server.Handle_Initiate_S_:InvokeServer(unpack(args))
+                        local args = {
+                            [1] = "fist_combat",
+                            [2] = game:GetService("Players").LocalPlayer,
+                            [3] = game:GetService("Players").LocalPlayer.Character,
+                            [4] = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart,
+                            [5] = game:GetService("Players").LocalPlayer.Character.Humanoid,
+                            [6] = 1
+                        }
+                        game:GetService("ReplicatedStorage").Remotes.To_Server.Handle_Initiate_S_:InvokeServer(unpack(args))
+                        local args = {
+                            [1] = "fist_combat",
+                            [2] = game:GetService("Players").LocalPlayer,
+                            [3] = game:GetService("Players").LocalPlayer.Character,
+                            [4] = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart,
+                            [5] = game:GetService("Players").LocalPlayer.Character.Humanoid,
+                            [6] = 1
+                        }
+                        game:GetService("ReplicatedStorage").Remotes.To_Server.Handle_Initiate_S_:InvokeServer(unpack(args))
+                        local args = {
+                            [1] = "fist_combat",
+                            [2] = game:GetService("Players").LocalPlayer,
+                            [3] = game:GetService("Players").LocalPlayer.Character,
+                            [4] = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart,
+                            [5] = game:GetService("Players").LocalPlayer.Character.Humanoid,
+                            [6] = 1
+                        }
+                        game:GetService("ReplicatedStorage").Remotes.To_Server.Handle_Initiate_S_:InvokeServer(unpack(args))
+            until not getgenv().KillAura or not getgenv().Method == "Combat"
+        end
+    end
+end)
+end)
+
+task.spawn(function()
+    pcall(function()
+        while task.wait() do
+            if getgenv().KillAura == true and getgenv().Method == "Sword - Fastest" then
+                repeat task.wait(3.6)
+                    local args = {
+                        [1] = "Sword_Combat_Slash",
+                        [2] = game:GetService("Players").LocalPlayer,
+                        [3] = game:GetService("Players").LocalPlayer.Character,
+                        [4] = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart,
+                        [5] = game:GetService("Players").LocalPlayer.Character.Humanoid,
+                        [6] = 1
+                    }
+                    game:GetService("ReplicatedStorage").Remotes.To_Server.Handle_Initiate_S_:InvokeServer(unpack(args))
+                    local args = {
+                        [1] = "Sword_Combat_Slash",
+                        [2] = game:GetService("Players").LocalPlayer,
+                        [3] = game:GetService("Players").LocalPlayer.Character,
+                        [4] = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart,
+                        [5] = game:GetService("Players").LocalPlayer.Character.Humanoid,
+                        [6] = 1
+                    }
+                    game:GetService("ReplicatedStorage").Remotes.To_Server.Handle_Initiate_S_:InvokeServer(unpack(args))
+                    local args = {
+                        [1] = "Sword_Combat_Slash",
+                        [2] = game:GetService("Players").LocalPlayer,
+                        [3] = game:GetService("Players").LocalPlayer.Character,
+                        [4] = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart,
+                        [5] = game:GetService("Players").LocalPlayer.Character.Humanoid,
+                        [6] = 1
+                    }
+                    game:GetService("ReplicatedStorage").Remotes.To_Server.Handle_Initiate_S_:InvokeServer(unpack(args))
+                    local args = {
+                        [1] = "Sword_Combat_Slash",
+                        [2] = game:GetService("Players").LocalPlayer,
+                        [3] = game:GetService("Players").LocalPlayer.Character,
+                        [4] = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart,
+                        [5] = game:GetService("Players").LocalPlayer.Character.Humanoid,
+                        [6] = 1
+                    }
+                    game:GetService("ReplicatedStorage").Remotes.To_Server.Handle_Initiate_S_:InvokeServer(unpack(args))
+                    local args = {
+                        [1] = "Sword_Combat_Slash",
+                        [2] = game:GetService("Players").LocalPlayer,
+                        [3] = game:GetService("Players").LocalPlayer.Character,
+                        [4] = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart,
+                        [5] = game:GetService("Players").LocalPlayer.Character.Humanoid,
+                        [6] = 1
+                    }
+                    game:GetService("ReplicatedStorage").Remotes.To_Server.Handle_Initiate_S_:InvokeServer(unpack(args))
+                    local args = {
+                        [1] = "Sword_Combat_Slash",
+                        [2] = game:GetService("Players").LocalPlayer,
+                        [3] = game:GetService("Players").LocalPlayer.Character,
+                        [4] = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart,
+                        [5] = game:GetService("Players").LocalPlayer.Character.Humanoid,
+                        [6] = 1
+                    }
+                    game:GetService("ReplicatedStorage").Remotes.To_Server.Handle_Initiate_S_:InvokeServer(unpack(args))
+                    local args = {
+                        [1] = "Sword_Combat_Slash",
+                        [2] = game:GetService("Players").LocalPlayer,
+                        [3] = game:GetService("Players").LocalPlayer.Character,
+                        [4] = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart,
+                        [5] = game:GetService("Players").LocalPlayer.Character.Humanoid,
+                        [6] = 1
+                    }
+            until not getgenv().KillAura or not getgenv().Method == "Sword - Fastest"
+        end
+    end
+end)
+end)
+
+task.spawn(function()
+    pcall(function()
+        while task.wait() do
+            if getgenv().KillAura == true and getgenv().Method == "Fast - No Damage Boost - Wont KnockBack" then
+                repeat task.wait(3.6)
+                    local args = {
+                        [1] = "Sword_Combat_Slash",
+                        [2] = game:GetService("Players").LocalPlayer,
+                        [3] = game:GetService("Players").LocalPlayer.Character,
+                        [4] = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart,
+                        [5] = game:GetService("Players").LocalPlayer.Character.Humanoid,
+                        [6] = 4
+                    }
+                    game:GetService("ReplicatedStorage").Remotes.To_Server.Handle_Initiate_S_:InvokeServer(unpack(args))
+                    local args = {
+                        [1] = "Sword_Combat_Slash",
+                        [2] = game:GetService("Players").LocalPlayer,
+                        [3] = game:GetService("Players").LocalPlayer.Character,
+                        [4] = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart,
+                        [5] = game:GetService("Players").LocalPlayer.Character.Humanoid,
+                        [6] = 4
+                    }
+                    game:GetService("ReplicatedStorage").Remotes.To_Server.Handle_Initiate_S_:InvokeServer(unpack(args))
+                    local args = {
+                        [1] = "Sword_Combat_Slash",
+                        [2] = game:GetService("Players").LocalPlayer,
+                        [3] = game:GetService("Players").LocalPlayer.Character,
+                        [4] = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart,
+                        [5] = game:GetService("Players").LocalPlayer.Character.Humanoid,
+                        [6] = 4
+                    }
+                    game:GetService("ReplicatedStorage").Remotes.To_Server.Handle_Initiate_S_:InvokeServer(unpack(args))
+                    local args = {
+                        [1] = "Sword_Combat_Slash",
+                        [2] = game:GetService("Players").LocalPlayer,
+                        [3] = game:GetService("Players").LocalPlayer.Character,
+                        [4] = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart,
+                        [5] = game:GetService("Players").LocalPlayer.Character.Humanoid,
+                        [6] = 4
+                    }
+                    game:GetService("ReplicatedStorage").Remotes.To_Server.Handle_Initiate_S_:InvokeServer(unpack(args))
+                    local args = {
+                        [1] = "Sword_Combat_Slash",
+                        [2] = game:GetService("Players").LocalPlayer,
+                        [3] = game:GetService("Players").LocalPlayer.Character,
+                        [4] = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart,
+                        [5] = game:GetService("Players").LocalPlayer.Character.Humanoid,
+                        [6] = 4
+                    }
+                    game:GetService("ReplicatedStorage").Remotes.To_Server.Handle_Initiate_S_:InvokeServer(unpack(args))
+                    local args = {
+                        [1] = "Sword_Combat_Slash",
+                        [2] = game:GetService("Players").LocalPlayer,
+                        [3] = game:GetService("Players").LocalPlayer.Character,
+                        [4] = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart,
+                        [5] = game:GetService("Players").LocalPlayer.Character.Humanoid,
+                        [6] = 4
+                    }
+                    game:GetService("ReplicatedStorage").Remotes.To_Server.Handle_Initiate_S_:InvokeServer(unpack(args))
+                    local args = {
+                        [1] = "Sword_Combat_Slash",
+                        [2] = game:GetService("Players").LocalPlayer,
+                        [3] = game:GetService("Players").LocalPlayer.Character,
+                        [4] = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart,
+                        [5] = game:GetService("Players").LocalPlayer.Character.Humanoid,
+                        [6] = 4
+                    }
+                    game:GetService("ReplicatedStorage").Remotes.To_Server.Handle_Initiate_S_:InvokeServer(unpack(args))
+                    local args = {
+                        [1] = "Sword_Combat_Slash",
+                        [2] = game:GetService("Players").LocalPlayer,
+                        [3] = game:GetService("Players").LocalPlayer.Character,
+                        [4] = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart,
+                        [5] = game:GetService("Players").LocalPlayer.Character.Humanoid,
+                        [6] = 4
+                    }
+                    game:GetService("ReplicatedStorage").Remotes.To_Server.Handle_Initiate_S_:InvokeServer(unpack(args))
+                    local args = {
+                        [1] = "Sword_Combat_Slash",
+                        [2] = game:GetService("Players").LocalPlayer,
+                        [3] = game:GetService("Players").LocalPlayer.Character,
+                        [4] = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart,
+                        [5] = game:GetService("Players").LocalPlayer.Character.Humanoid,
+                        [6] = 4
+                    }
+                    game:GetService("ReplicatedStorage").Remotes.To_Server.Handle_Initiate_S_:InvokeServer(unpack(args))
+                    local args = {
+                        [1] = "Sword_Combat_Slash",
+                        [2] = game:GetService("Players").LocalPlayer,
+                        [3] = game:GetService("Players").LocalPlayer.Character,
+                        [4] = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart,
+                        [5] = game:GetService("Players").LocalPlayer.Character.Humanoid,
+                        [6] = 4
+                    }
+                    game:GetService("ReplicatedStorage").Remotes.To_Server.Handle_Initiate_S_:InvokeServer(unpack(args))
+                    local args = {
+                        [1] = "Sword_Combat_Slash",
+                        [2] = game:GetService("Players").LocalPlayer,
+                        [3] = game:GetService("Players").LocalPlayer.Character,
+                        [4] = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart,
+                        [5] = game:GetService("Players").LocalPlayer.Character.Humanoid,
+                        [6] = 4
+                    }
+                    game:GetService("ReplicatedStorage").Remotes.To_Server.Handle_Initiate_S_:InvokeServer(unpack(args))
+                    local args = {
+                        [1] = "Sword_Combat_Slash",
+                        [2] = game:GetService("Players").LocalPlayer,
+                        [3] = game:GetService("Players").LocalPlayer.Character,
+                        [4] = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart,
+                        [5] = game:GetService("Players").LocalPlayer.Character.Humanoid,
+                        [6] = 4
+                    }
+                    game:GetService("ReplicatedStorage").Remotes.To_Server.Handle_Initiate_S_:InvokeServer(unpack(args))
+                    local args = {
+                        [1] = "Sword_Combat_Slash",
+                        [2] = game:GetService("Players").LocalPlayer,
+                        [3] = game:GetService("Players").LocalPlayer.Character,
+                        [4] = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart,
+                        [5] = game:GetService("Players").LocalPlayer.Character.Humanoid,
+                        [6] = 4
+                    }
+                    local args = {
+                        [1] = "Sword_Combat_Slash",
+                        [2] = game:GetService("Players").LocalPlayer,
+                        [3] = game:GetService("Players").LocalPlayer.Character,
+                        [4] = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart,
+                        [5] = game:GetService("Players").LocalPlayer.Character.Humanoid,
+                        [6] = 4
+                    }
+                    local args = {
+                        [1] = "Sword_Combat_Slash",
+                        [2] = game:GetService("Players").LocalPlayer,
+                        [3] = game:GetService("Players").LocalPlayer.Character,
+                        [4] = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart,
+                        [5] = game:GetService("Players").LocalPlayer.Character.Humanoid,
+                        [6] = 4
+                    }
+                    local args = {
+                        [1] = "Sword_Combat_Slash",
+                        [2] = game:GetService("Players").LocalPlayer,
+                        [3] = game:GetService("Players").LocalPlayer.Character,
+                        [4] = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart,
+                        [5] = game:GetService("Players").LocalPlayer.Character.Humanoid,
+                        [6] = 4
+                    }
+                    local args = {
+                        [1] = "Sword_Combat_Slash",
+                        [2] = game:GetService("Players").LocalPlayer,
+                        [3] = game:GetService("Players").LocalPlayer.Character,
+                        [4] = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart,
+                        [5] = game:GetService("Players").LocalPlayer.Character.Humanoid,
+                        [6] = 4
+                    }
+            until not getgenv().KillAura or not getgenv().Method == "Fast - No Damage Boost - Wont KnockBack"
+        end
+    end
+end)
+end)
+
+spawn(function()
+while task.wait() do
+    if getgenv().FarmAllBosses == true and getgenv().FarmMethod == "Behind" then
+     while getgenv().FarmAllBosses do task.wait()
+    for i,v in pairs(game:GetService("Workspace").Mobs.Bosses:GetDescendants()) do
+        if table.find(bosses, v.Name) and v:IsA("Model") and getgenv().FarmAllBosses then
+            pcall(function()
+                while v.Humanoid.Health > 0 and getgenv().FarmAllBosses do
+                    repeat task.wait()
+                        moveto(v:GetModelCFrame()*CFrame.new(0,0,6), 80)
+                    until v.Humanoid.Health > 0 or not getgenv().FarmAllBosses or not v:IsDescendantOf(workspace)
+                end
+                end)
+            end
+        end
+    end
+    end
+end
+end)
+
+spawn(function()
+while task.wait() do
+    if getgenv().FarmAllBosses == true and getgenv().FarmMethod == "Below" then
+     while getgenv().FarmAllBosses do task.wait()
+    for i,v in pairs(game:GetService("Workspace").Mobs.Bosses:GetDescendants()) do
+        if table.find(bosses, v.Name) and v:IsA("Model") and getgenv().FarmAllBosses then
+            pcall(function()
+                while v.Humanoid.Health > 0 and getgenv().FarmAllBosses do
+                    repeat task.wait()
+                        moveto(v:GetModelCFrame()*CFrame.new(0,-10,0), 80)
+                    until v.Humanoid.Health > 0 or not getgenv().FarmAllBosses or not v:IsDescendantOf(workspace)
+                end
+                end)
+            end
+        end
+    end
+    end
+end
+end)
+
+
+spawn(function()
+while task.wait() do
+    if getgenv().FarmAllBosses == true and getgenv().FarmMethod == "Close" then
+     while getgenv().FarmAllBosses do task.wait()
+    for i,v in pairs(game:GetService("Workspace").Mobs.Bosses:GetDescendants()) do
+        if table.find(bosses, v.Name) and v:IsA("Model") and getgenv().FarmAllBosses then
+            pcall(function()
+                while v.Humanoid.Health > 0 and getgenv().FarmAllBosses do
+                    repeat task.wait()
+                        moveto(v:GetModelCFrame()*CFrame.new(0,0,0), 80)
+                    until v.Humanoid.Health > 0 or not getgenv().FarmAllBosses or not v:IsDescendantOf(workspace)
+                    end
+                end)
+            end
+        end
+    end
+    end
+end
+end)
+
+task.spawn(function()
+    pcall(function()
+    while task.wait() do
+        if getgenv().FarmSelectedBoss == true and getgenv().FarmMethod == "Behind" then
+            for i,v in pairs(game:GetService("Workspace").Mobs.Bosses:GetDescendants()) do
+                if string.match(v.Name, getgenv().wanted_boss) then
+                    pcall(function()
+                    while v.Humanoid.Health > 0 and getgenv().FarmSelectedBoss do
+                        repeat task.wait()
+                            moveto(v:GetModelCFrame()*CFrame.new(0,0,6), 80)
+                        until v.Humanoid.Health > 0 or not getgenv().FarmSelectedBoss or not v:IsDescendantOf(workspace)                                    
+                                end
+                            end)
+                        end
+                    end
+                end
+            end
+        end)
+    end)
+
+task.spawn(function()
+    pcall(function()
+    while task.wait() do
+        if getgenv().FarmSelectedBoss == true and getgenv().FarmMethod == "Below" then
+            for i,v in pairs(game:GetService("Workspace").Mobs.Bosses:GetDescendants()) do
+                if string.match(v.Name, getgenv().wanted_boss) then
+                    pcall(function()
+                    while v.Humanoid.Health > 0 and getgenv().FarmSelectedBoss do
+                        repeat task.wait()
+                            moveto(v:GetModelCFrame()*CFrame.new(0,-7,0), 80)
+                        until v.Humanoid.Health > 0 or not getgenv().FarmSelectedBoss or not v:IsDescendantOf(workspace)                                    
+                                end
+                            end)
+                        end
+                    end
+                end
+            end
+        end)
+    end)
+task.spawn(function()
+    pcall(function()
+    while task.wait() do
+        if getgenv().FarmSelectedBoss == true and getgenv().FarmMethod == "Below" then
+            for i,v in pairs(game:GetService("Workspace").Mobs.Bosses:GetDescendants()) do
+                if string.match(v.Name, getgenv().wanted_boss) then
+                    pcall(function()
+                    while v.Humanoid.Health > 0 and getgenv().FarmSelectedBoss do
+                        repeat task.wait()
+                            moveto(v:GetModelCFrame()*CFrame.new(0,0,0), 80)
+                        until v.Humanoid.Health > 0 or not getgenv().FarmSelectedBoss or not v:IsDescendantOf(workspace)                                    
+                                end
+                            end)
+                        end
+                    end
+                end
+            end
+        end)
+    end)
+
+spawn(function()
+while task.wait() do
+    if getgenv().DemonFarm == true and getgenv().FarmMethod == "Behind" then
+        while getgenv().DemonFarm do task.wait()
+    for i,v in pairs(game:GetService("Workspace").Mobs.Demons:GetDescendants()) do
+        if table.find(Demons, v.Name) and v:IsA("Model") and getgenv().DemonFarm then
+            pcall(function()
+                while v.Humanoid.Health > 0 and getgenv().DemonFarm do
+                    repeat task.wait()
+                        moveto(v:GetModelCFrame()*CFrame.new(0,0,6), 80)
+                    until v.Humanoid.Health > 0 or not getgenv().DemonFarm or not v:IsDescendantOf(workspace)
+                            end
+                        end)
+                    end
+                end
+            end
+        end
+    end
+end)
+
+spawn(function()
+while task.wait() do
+    if getgenv().DemonFarm == true and getgenv().FarmMethod == "Below" then
+        while getgenv().DemonFarm do task.wait()
+    for i,v in pairs(game:GetService("Workspace").Mobs.Demons:GetDescendants()) do
+        if table.find(Demons, v.Name) and v:IsA("Model") and getgenv().DemonFarm then
+            pcall(function()
+                while v.Humanoid.Health > 0 and getgenv().DemonFarm do
+                    repeat task.wait()
+                        moveto(v:GetModelCFrame()*CFrame.new(0,-10,0), 80)
+                        until v.Humanoid.Health > 0 or not getgenv().DemonFarm or not v:IsDescendantOf(workspace)
+                            end
+                        end)
+                    end
+                end
+            end
+        end
+    end
+end)
+
+
+spawn(function()
+while task.wait() do
+    if getgenv().DemonFarm == true and getgenv().FarmMethod == "Close" then
+        while getgenv().DemonFarm do task.wait()
+    for i,v in pairs(game:GetService("Workspace").Mobs.Demons:GetDescendants()) do
+        if table.find(Demons, v.Name) and v:IsA("Model") and getgenv().DemonFarm then
+            pcall(function()
+                while v.Humanoid.Health > 0 and getgenv().DemonFarm do
+                    repeat task.wait()
+                        moveto(v:GetModelCFrame()*CFrame.new(0,0,0), 80)
+                        until v.Humanoid.Health > 0 or not getgenv().DemonFarm or not v:IsDescendantOf(workspace)
+                            end
+                        end)
+                    end
+                end
+            end
+        end
+    end
+end)
+end
